@@ -39,6 +39,8 @@ import com.mastercard.developer.loyalty_benefits_client.model.AssignedBenefits;
 import com.mastercard.developer.loyalty_benefits_client.model.Benefits;
 import com.mastercard.developer.loyalty_benefits_client.model.BenefitsSelection;
 import com.mastercard.developer.loyalty_benefits_client.model.BenefitsSelectionAdditionalInformation;
+import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequest;
+import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequestAdditionalInformation;
 import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequestAdditionalInformationCardholder;
 import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequestAdditionalInformationDependents;
 import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequestAdditionalInformationPartner;
@@ -47,14 +49,10 @@ import com.mastercard.developer.loyalty_benefits_client.model.BundleUserData;
 import com.mastercard.developer.loyalty_benefits_client.model.BundleUserResponse;
 import com.mastercard.developer.loyalty_benefits_client.model.ClaimStatus;
 import com.mastercard.developer.loyalty_benefits_client.model.ClaimStatusRequest;
-import com.mastercard.developer.loyalty_benefits_client.model.Consent;
 import com.mastercard.developer.loyalty_benefits_client.model.Credentials;
 import com.mastercard.developer.loyalty_benefits_client.model.Email;
 import com.mastercard.developer.loyalty_benefits_client.model.Identification;
-import com.mastercard.developer.loyalty_benefits_client.model.Im;
 import com.mastercard.developer.loyalty_benefits_client.model.Name;
-import com.mastercard.developer.loyalty_benefits_client.model.PhoneNumber;
-import com.mastercard.developer.loyalty_benefits_client.model.Photo;
 import com.mastercard.developer.loyalty_benefits_client.model.SubmitClaimUserData;
 import com.mastercard.developer.loyalty_benefits_client.model.SubmitClaimUserToken;
 import com.mastercard.developer.loyalty_benefits_client.model.User;
@@ -101,6 +99,10 @@ public class BenefitsApiDemo {
 			executeInsuranceTokenDataScenario(insuranceApi);
 		}
 
+		if(runThisScenario(args,"bilhete")) {
+			executeSubmitBilheteScenario(benefitsApi);
+		}
+		
 		if(runThisScenario(args,"error")) {
 			executeBenefitsRetrieveErrorScenario(benefitsApi);
 		}
@@ -198,6 +200,18 @@ public class BenefitsApiDemo {
 		}
 	}
 	
+	private static void executeSubmitBilheteScenario(BenefitsApi benefitsApi) {
+		BilheteRequest bilheteRequest = getBilheteRequest();
+		try {
+			printMessage("STARTING INSURANCE CERTIFICATES FROM COMMAND LINE RUNNER");
+			benefitsApi.insuranceCertificatesPost(bilheteRequest);
+			System.out.println("Insurance Certificates request submitted successful");
+		} catch (Exception e) {
+			System.err.println("Exception in Insurance Certificates execution");
+			e.printStackTrace();
+		}
+	}
+	
 	private static void executeBenefitsRetrieveErrorScenario(BenefitsApi benefitsApi) {
 		Integer ica = 1;
 		String productName = "KWrkp2V4c";
@@ -250,6 +264,31 @@ public class BenefitsApiDemo {
 		return benefitsSelection;
 
 	}
+	
+	private static BilheteRequest getBilheteRequest() {
+
+		BilheteRequest bilheteRequest = new BilheteRequest();
+		bilheteRequest.setUserId("user1235");
+		bilheteRequest.setPanLastFourDigits("");
+		bilheteRequest.setIca(4567);
+		bilheteRequest.setCardProductType("black");
+		bilheteRequest.setMemberId("3154");
+
+		BilheteRequestAdditionalInformation bilheteRequestAdditionalInformation = new BilheteRequestAdditionalInformation();
+		bilheteRequestAdditionalInformation.setCardholder(new BilheteRequestAdditionalInformationCardholder("John", "Smith",
+				"1992-01-02", "BRA", "999.999.999-99", "Rua Francisco Pereira da Silva 1480", "Guarulhos", "SP",
+				"1930288", "Parque Paulistano", "john.smith@mail.com", "11", "1111-1111"));
+		bilheteRequestAdditionalInformation.setPartner(
+				new BilheteRequestAdditionalInformationPartner("John", "Smith", "999.999.999-99", "1992-02-02"));
+		List<BilheteRequestAdditionalInformationDependents> dependents = new ArrayList<>();
+		dependents.add(
+				new BilheteRequestAdditionalInformationDependents("John", "Smith", "999.999.999-99", "1992-01-01"));
+		bilheteRequestAdditionalInformation.setDependents(dependents);
+		bilheteRequest.setAdditionalInformation(bilheteRequestAdditionalInformation);
+
+		return bilheteRequest;
+
+	}
 
 	private static BenefitsSelectionAdditionalInformation getAdditionalInformation() {
 		BenefitsSelectionAdditionalInformation additionalInformation = new BenefitsSelectionAdditionalInformation();
@@ -273,44 +312,23 @@ public class BenefitsApiDemo {
 		Address address = new Address();
 		Email email = new Email();
 		Identification identification = new Identification();
-		Im im = new Im();
 		Name name = new Name();
-		PhoneNumber phoneNumber = new PhoneNumber();
-		Photo photo = new Photo();
-		List<Photo> photos = new ArrayList<>();
-		List<PhoneNumber> phoneNumbers = new ArrayList<>();
-		List<Im> ims = new ArrayList<>();
 		List<Identification> identifications = new ArrayList<>();
 		List<Email> emails = new ArrayList<>();
 		List<Address> addresses = new ArrayList<>();
 
-		user.setActive(true);
 		address.setCountry("US");
-		address.setFormatted("114 5th Ave, New York, NY 10011");
 		address.setLocality("city");
-		address.setOperation("None");
 		address.setPostalCode("10011");
-		address.setPrimary(false);
 		address.setRegion("NY");
 		address.setStreetAddress("114 5th Ave");
-		address.setStreetAddress2("Suite 20");
-		address.setType("work");
 		addresses.add(address);
 		user.setAddresses(addresses);
 
-		user.setDateOfBirth("1992-11-17");
-		user.setDisplayName("John F Smith");
-
-		email.setDisplay("Primary email address of user");
-		email.setOperation("None");
-		email.setPrimary(true);
-		email.setType("home");
 		email.setValue("john5033379289074369@gmail.com");
 		emails.add(email);
 		user.setEmails(emails);
 
-		user.setExternalId("user123-partnerBank");
-		user.setId("d3459481-fb1c-48bb-8685-40eb629e2ae1");
 
 		identification.setCountry("BR");
 		identification.setType("CPF");
@@ -318,95 +336,33 @@ public class BenefitsApiDemo {
 		identifications.add(identification);
 		user.setIdentifications(identifications);
 
-		im.setDisplay("user Yahoo-id");
-		im.setOperation("None");
-		im.setPrimary(true);
-		im.setType("aim");
-		im.setValue("JohnFSmith123");
-		ims.add(im);
-		user.setIms(ims);
-
-		user.locale("en-US");
-
-		name.setFamilyName("Smitherines");
-		name.setFormatted("Sally Smitherines");
 		name.setGivenName("Sally");
-		name.setHonorificPrefix("Ms.");
-		name.setHonorificSuffix("Sr.");
-		name.setMiddleName("F");
+		name.setFamilyName("Smitherines");
 		user.setName(name);
 
-		user.setNickName("sallySmith");
-		user.setPassword("boingouser5105363487498185");
-
-		phoneNumber.setDisplay("Office fax of user");
-		phoneNumber.setOperation("None");
-		phoneNumber.setPrimary(false);
-		phoneNumber.setType("fax");
-		phoneNumber.setValue("+1-201-555-0123");
-		phoneNumbers.add(phoneNumber);
-		user.setPhoneNumbers(phoneNumbers);
-
-		photo.setDisplay("portrait");
-		photo.setOperation("None");
-		photo.setPrimary(true);
-		photo.setType("thumbnail");
-		photo.setValue("facebook.com/JohnFSmith123/photos/1");
-		photos.add(photo);
-		user.setPhotos(photos);
-
 		user.setPreferredLanguage("en");
-		user.setProfileUrl("facebook.com/JohnFSmith123");
-		user.setTimezone("America/New_York");
-		user.setTitle("Vice President");
 		user.setUserId("user123-partnerBank");
-		user.setUserName("JohnFSmith123");
-		user.setUserType("Intern");
 
 		Account account = new Account();
-		account.setAccountType("SingleMember");
-		account.setBrand("Mastercard");
-		account.setCardAlias("d3459481-fb1c-48bb-8685-40eb629e2ae1");
 		account.setCardExpiryDate("02/2024");
-		account.setCvcCode("876");
-		account.setIca(12594L);
-		account.setLast4Pan(8185);
 		account.setNameOnCard("SALLY SMITHERINES");
-		account.setPan("5105363487498185");
-		account.setPar("q1hjz28rka1ebl470g9xyg90r5d3e");
-		account.setPrimary(true);
-		account.setProductLine("Credit cards");
-		account.setProductType("Black");
-		account.setUuid("d3459481-fb1c-48bb-8685-40eb629e2ae1");
+		account.setPan("1234xxxxxxxx5678");
 
 		AccountExternal accountExternal = new AccountExternal();
-		accountExternal.setAccountStatusCode("1");
-		accountExternal.setExternalMembershipReferenceId("B12345");
+		accountExternal.setAccountType("SingleMember");
+		accountExternal.setIca("13973");
+		accountExternal.setCardProductType("Black");
+		accountExternal.setExternalMembershipReferenceId("7987984542126");
 		account.setObject(accountExternal);
-
-		Consent consent = new Consent();
-		consent.setAgreed(true);
-		consent.setConsentType("author-legal-content-document");
-		consent.setConsentedDate("2018-06-19T12:30:42.307+0000");
-		consent.setCountry("BRA");
-		consent.setLanguage("en_us");
-		consent.setServiceCode("priceless");
-		consent.setServiceFunctionCode("registration-page code");
-		consent.setUseCategoryCode("UC-01");
-		consent.setUseCategoryValue("acceptPersonalizedOffersEmail");
-		consent.setUuid("d3459481-fb1c-48bb-8685-40eb629e2ae1");
 
 		List<Account> accounts = new ArrayList<>();
 		accounts.add(account);
-		List<Consent> consents = new ArrayList<>();
-		consents.add(consent);
+		
 		Credentials productCredentials = new Credentials();
-		productCredentials.setUsername("boingoid123");
-		productCredentials.setPassword("boingopwd");
+		productCredentials.setUsername("username");
+		productCredentials.setPassword("password");
 		userProduct.setProduct("benefits");
 		userProduct.setAccounts(accounts);
-		userProduct.setConsents(consents);
-		userProduct.setObject(productCredentials);
 		List<UserProduct> products = new ArrayList<>();
 		products.add(userProduct);
 

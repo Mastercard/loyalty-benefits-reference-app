@@ -63,6 +63,8 @@ public class BilheteRequest {
   public static final String SERIALIZED_NAME_ADDITIONAL_INFORMATION = "additionalInformation";
   @SerializedName(SERIALIZED_NAME_ADDITIONAL_INFORMATION)
   private BilheteRequestAdditionalInformation additionalInformation = null;
+  
+  private String memberId;
 
   public BilheteRequest ica(Integer ica) {
     this.ica = ica;
@@ -99,6 +101,14 @@ public class BilheteRequest {
   public void setUserId(String userId) {
     this.userId = userId;
   }
+  
+  public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
 
   public BilheteRequest cardProductType(String cardProductType) {
     this.cardProductType = cardProductType;

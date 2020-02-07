@@ -34,16 +34,36 @@ package com.mastercard.developer.loyalty_benefits_client.model;
 
 public class AccountExternal {
 	
-	private String accountStatusCode;
+	private String accountType;
+	
+	private String ica;
+	
+	private String cardProductType;
 	
 	private String externalMembershipReferenceId;
 
-	public String getAccountStatusCode() {
-		return accountStatusCode;
+	public String getAccountType() {
+		return accountType;
 	}
 
-	public void setAccountStatusCode(String accountStatusCode) {
-		this.accountStatusCode = accountStatusCode;
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getIca() {
+		return ica;
+	}
+
+	public void setIca(String ica) {
+		this.ica = ica;
+	}
+
+	public String getCardProductType() {
+		return cardProductType;
+	}
+
+	public void setCardProductType(String cardProductType) {
+		this.cardProductType = cardProductType;
 	}
 
 	public String getExternalMembershipReferenceId() {
@@ -53,7 +73,5 @@ public class AccountExternal {
 	public void setExternalMembershipReferenceId(String externalMembershipReferenceId) {
 		this.externalMembershipReferenceId = externalMembershipReferenceId;
 	}
-	
-	
 
 }

@@ -26,6 +26,14 @@ limitations under the License.
 
 package com.mastercard.developer.loyalty_benefits_client.api;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.reflect.TypeToken;
 import com.mastercard.developer.loyalty_benefits_client.ApiCallback;
 import com.mastercard.developer.loyalty_benefits_client.ApiClient;
 import com.mastercard.developer.loyalty_benefits_client.ApiException;
@@ -34,21 +42,10 @@ import com.mastercard.developer.loyalty_benefits_client.Configuration;
 import com.mastercard.developer.loyalty_benefits_client.Pair;
 import com.mastercard.developer.loyalty_benefits_client.ProgressRequestBody;
 import com.mastercard.developer.loyalty_benefits_client.ProgressResponseBody;
-
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-
-
 import com.mastercard.developer.loyalty_benefits_client.model.AssignedBenefits;
 import com.mastercard.developer.loyalty_benefits_client.model.Benefits;
 import com.mastercard.developer.loyalty_benefits_client.model.BenefitsSelection;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequest;
 
 public class BenefitsApi {
     private ApiClient apiClient;
@@ -505,6 +502,125 @@ public class BenefitsApi {
         com.squareup.okhttp.Call call = loyaltyBenefitsProductBenefitsGetValidateBeforeCall(ica, productName, channel, preferredLanguage, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Benefits>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    
+
+    /**
+     * Build call for insuranceCertificatesPost
+     * @param bilheteRequest Bilhete payload (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call insuranceCertificatesPostCall(BilheteRequest bilheteRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = bilheteRequest;
+
+        // create path and map variables
+        String localVarPath = "/loyalty/benefits/reference/insurance-certificates";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if (progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call insuranceCertificatesPostValidateBeforeCall(BilheteRequest bilheteRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'bilheteRequest' is set
+        if (bilheteRequest == null) {
+            throw new ApiException("Missing the required parameter 'bilheteRequest' when calling insuranceCertificatesPost(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = insuranceCertificatesPostCall(bilheteRequest, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Submit Insurance Certificates request
+     * 
+     * @param bilheteRequest Bilhete payload (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void insuranceCertificatesPost(BilheteRequest bilheteRequest) throws ApiException {
+        insuranceCertificatesPostWithHttpInfo(bilheteRequest);
+    }
+
+    /**
+     * Submit Insurance Certificates request
+     * 
+     * @param bilheteRequest Bilhete payload (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> insuranceCertificatesPostWithHttpInfo(BilheteRequest bilheteRequest) throws ApiException {
+        com.squareup.okhttp.Call call = insuranceCertificatesPostValidateBeforeCall(bilheteRequest, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     * Submit Insurance Certificates request (asynchronously)
+     * 
+     * @param bilheteRequest Bilhete payload (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call insuranceCertificatesPostAsync(BilheteRequest bilheteRequest, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = insuranceCertificatesPostValidateBeforeCall(bilheteRequest, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
         return call;
     }
 }

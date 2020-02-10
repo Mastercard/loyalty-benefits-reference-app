@@ -99,7 +99,7 @@ public class BenefitsApiDemo {
 			executeInsuranceTokenDataScenario(insuranceApi);
 		}
 
-		if(runThisScenario(args,"bilhete")) {
+		if(runThisScenario(args,"insurance-certificates")) {
 			executeSubmitBilheteScenario(benefitsApi);
 		}
 		

@@ -234,7 +234,7 @@ loyalty-benefits-support@mastercard.flowdock.com
 - Run the application using this command: java -jar path of the Jar relative to the current directory/loyalty-benefits-client-1.0.0.jar
 
 
-- Argument: An argument which defines the feature user wants to run through command line. If you don't specify this argument, it will run all the features(registration,getbenefits,selectbenefits,assignedbenefits and error) one after the other
+- Argument: An argument which defines the feature user wants to run through command line. If you don't specify this argument, it will run all the features(registration,getbenefits,selectbenefits,assignedbenefits,insurance-certificates and error) one after the other
 
 registration : Registration for benefits service
 
@@ -243,6 +243,8 @@ getbenefits : Retrieve all available benefits
 selectbenefits : Select Benefits to add to card holder
 
 assignedbenefits : Retrieve benefits assigned to the user
+
+insurance-certificates: Submit a request for insurance cerificates
 
 error: An error scenario example
 

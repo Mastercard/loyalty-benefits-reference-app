@@ -61,10 +61,6 @@ public class RequestHelper {
 	 public static String getBaseURL() {
 		 return prop.getProperty(BASE_URL);
 	 }
-	 
-	 public static String getBaseInsuranceURL() {
-			return prop.getProperty(BASE_INSURANCE_URL);
-	 }
 
 	public static void loadProperties() {
 		if (prop == null || prop.isEmpty()) {

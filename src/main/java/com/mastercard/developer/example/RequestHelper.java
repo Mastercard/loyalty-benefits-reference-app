@@ -41,9 +41,7 @@ public class RequestHelper {
 	private static String KEYSTORE_ALIAS ="mastercard.benefits.ref.app.keystore.alias";
 	
 	private static String BASE_URL = "mastercard.benefits.ref.app.url";
-	
-	private static String BASE_INSURANCE_URL = "mastercard.benefits.ref.app.insurance.url";
-	
+		
 	private static Properties prop = null;
 	
 	 public static PrivateKey getPrivateKey() throws Exception {

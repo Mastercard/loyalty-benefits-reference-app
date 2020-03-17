@@ -31,7 +31,6 @@ import com.mastercard.developer.loyalty_benefits_client.ApiClient;
 import com.mastercard.developer.loyalty_benefits_client.ApiException;
 import com.mastercard.developer.loyalty_benefits_client.api.BenefitsApi;
 import com.mastercard.developer.loyalty_benefits_client.api.BundleProfileApi;
-import com.mastercard.developer.loyalty_benefits_client.api.InsuranceApi;
 import com.mastercard.developer.loyalty_benefits_client.model.Account;
 import com.mastercard.developer.loyalty_benefits_client.model.AccountExternal;
 import com.mastercard.developer.loyalty_benefits_client.model.Address;
@@ -47,14 +46,10 @@ import com.mastercard.developer.loyalty_benefits_client.model.BilheteRequestAddi
 import com.mastercard.developer.loyalty_benefits_client.model.BundleUser;
 import com.mastercard.developer.loyalty_benefits_client.model.BundleUserData;
 import com.mastercard.developer.loyalty_benefits_client.model.BundleUserResponse;
-import com.mastercard.developer.loyalty_benefits_client.model.ClaimStatus;
-import com.mastercard.developer.loyalty_benefits_client.model.ClaimStatusRequest;
 import com.mastercard.developer.loyalty_benefits_client.model.Credentials;
 import com.mastercard.developer.loyalty_benefits_client.model.Email;
 import com.mastercard.developer.loyalty_benefits_client.model.Identification;
 import com.mastercard.developer.loyalty_benefits_client.model.Name;
-import com.mastercard.developer.loyalty_benefits_client.model.SubmitClaimUserData;
-import com.mastercard.developer.loyalty_benefits_client.model.SubmitClaimUserToken;
 import com.mastercard.developer.loyalty_benefits_client.model.User;
 import com.mastercard.developer.loyalty_benefits_client.model.UserProduct;
 
@@ -71,8 +66,6 @@ public class BenefitsApiDemo {
 		apiClient.setDebugging(true);
 		
 		BenefitsApi benefitsApi = new BenefitsApi(apiClient);
-
-		InsuranceApi insuranceApi = new InsuranceApi(apiClient);
 		
 		if(runThisScenario(args,"registration")) {
 			BundleProfileApi bundleProfileApi = new BundleProfileApi(apiClient);
@@ -89,14 +82,6 @@ public class BenefitsApiDemo {
 
 		if(runThisScenario(args,"assignedbenefits")) {
 			executeAssignedBenefitsRetrieveScenario(benefitsApi);
-		}
-
-		if(runThisScenario(args,"claimsearch")) {
-			executeInsuranceClaimSearchScenario(insuranceApi);
-		}
-		
-		if(runThisScenario(args,"insurancetoken")) {
-			executeInsuranceTokenDataScenario(insuranceApi);
 		}
 
 		if(runThisScenario(args,"insurance-certificates")) {
@@ -164,38 +149,6 @@ public class BenefitsApiDemo {
 			System.out.println(result);
 		} catch (Exception e) {
 			System.err.println("Exception when calling Assigned Benefits");
-			e.printStackTrace();
-		}
-	}
-
-	private static void executeInsuranceClaimSearchScenario(InsuranceApi insuranceApi) {
-		ClaimStatusRequest claimStatusRequest = new ClaimStatusRequest("C0011", "71000", "English");
-		try {
-			printMessage("STARTING INSURANCE CLAIM SEARCH FROM COMMAND LINE RUNNER");
-			ClaimStatus result = insuranceApi.loyaltyInsuranceClaimSearchesPost(claimStatusRequest);
-			System.out.println("Parsed Response---------------");
-			System.out.println(result);
-		} catch (Exception e) {
-			System.err.println("Exception in Insurance Claim Search");
-			e.printStackTrace();
-		}
-	}
-	
-	private static void executeInsuranceTokenDataScenario(InsuranceApi insuranceApi) {
-		
-		SubmitClaimUserData submitClaimUserData = new SubmitClaimUserData();
-		submitClaimUserData.setFirstName("John");
-		submitClaimUserData.setLastName("Smith");
-		submitClaimUserData.setState("SP");
-		submitClaimUserData.setPan("50000000000000000");
-
-		try {
-			printMessage("STARTING INSURANCE TOKENIZE DATA FROM COMMAND LINE RUNNER");
-			SubmitClaimUserToken result = insuranceApi.loyaltyInsuranceUserDataTokensPost(submitClaimUserData);
-			System.out.println("Parsed Response---------------");
-			System.out.println("Token: "+result);
-		} catch (Exception e) {
-			System.err.println("Exception in Insurance Token Data");
 			e.printStackTrace();
 		}
 	}
@@ -269,7 +222,7 @@ public class BenefitsApiDemo {
 
 		BilheteRequest bilheteRequest = new BilheteRequest();
 		bilheteRequest.setUserId("user1235");
-		bilheteRequest.setPanLastFourDigits("");
+		bilheteRequest.setPanLastFourDigits("2244");
 		bilheteRequest.setIca(4567);
 		bilheteRequest.setCardProductType("black");
 		bilheteRequest.setMemberId("3154");

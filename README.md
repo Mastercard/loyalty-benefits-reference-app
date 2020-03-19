@@ -195,7 +195,7 @@ loyalty-benefits-support@mastercard.flowdock.com
 ## Steps to run the application from command line
 
 
-- Create a new project from Mastercard DevZone - stage.developer.mastercard.com or developer.mastercard.com
+- Create a new project from Mastercard DevZone - developer.mastercard.com or developer.mastercard.com
 
 
 - Select "Loyalty Benefits" from Choose API dropdown and hit continue.
